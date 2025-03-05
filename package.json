@@ -2,6 +2,7 @@
   "name": "rails-migration-boy",
   "displayName": "Rails Migration Boy",
   "description": "Run Rails migration commands from VS Code",
+  "publisher": "haroon26",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.85.0"
@@ -41,6 +42,10 @@
     "@types/vscode": "^1.85.0",
     "@types/node": "^18.x",
     "eslint": "^8.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/haroon26/rails-migration-boy"
   },
   "license": "MIT"
 }

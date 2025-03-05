@@ -36,7 +36,7 @@ A Visual Studio Code extension designed to streamline Rails migration management
 ### Command Palette
 
 - Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on macOS).
-- Type and select "Rails Migration Boy".
+- Type and select "Rails Migration Boy Commands".
 - Choose from:
   - **Migrate All**: Runs `rails db:migrate` (available always).
   - **Migrate Up**, **Migrate Down**, **Migrate Redo**: Available when a migration file is open.
