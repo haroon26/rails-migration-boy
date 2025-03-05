@@ -10,11 +10,14 @@
     "Other"
   ],
   "main": "./extension.js",
+  "activationEvents": [
+    "onLanguage:ruby"
+  ],
   "contributes": {
     "commands": [
       {
         "command": "rails-migration-boy.showCommands",
-        "title": "Rails Migration Boy Commands"
+        "title": "Rails Migration Boy"
       },
       {
         "command": "rails-migration-boy.runUp",
@@ -38,5 +41,6 @@
     "@types/vscode": "^1.85.0",
     "@types/node": "^18.x",
     "eslint": "^8.x"
-  }
+  },
+  "license": "MIT"
 }

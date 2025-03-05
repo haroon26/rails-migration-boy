@@ -1,65 +1,65 @@
-# rails-migration-boy README
+# Rails Migration Boy
 
-This is the README for your extension "rails-migration-boy". After writing up a brief description, we recommend including the following sections.
+A Visual Studio Code extension designed to streamline Rails migration management. Run migration commands directly from your editor with CodeLens annotations or the Command Palette.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- **CodeLens Annotations**: When viewing a Rails migration file, see clickable "Up", "Down", and "Redo" options above the first line.
+- **Command Palette Support**: Access all migration commands, including "Migrate All", from the Command Palette.
+- **Version Detection**: Automatically extracts the migration version from the filename for precise command execution.
 
-For example if there is an image subfolder under your extension project workspace:
+## Installation
 
-\!\[feature X\]\(images/feature-x.png\)
+1. **Via VS Code Marketplace**:
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+   - Open VS Code.
+   - Go to the Extensions view (`Ctrl+Shift+X` or `Cmd+Shift+X` on macOS).
+   - Search for "Rails Migration Boy".
+   - Click "Install".
 
-## Requirements
+2. **Manual Installation** (Optional):
+   - Download the `.vsix` file from the Marketplace or build it locally.
+   - In VS Code, go to Extensions view > "..." menu > "Install from VSIX".
+   - Select the downloaded `.vsix` file.
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+## Usage
 
-## Extension Settings
+### CodeLens Commands
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+- Open a Rails migration file (e.g., `20230304123456_create_users.rb`) in the `db/migrate` directory.
+- Above the first line, you'll see:
+  - **Up**: Runs `rails db:migrate:up VERSION=<version>`
+  - **Down**: Runs `rails db:migrate:down VERSION=<version>`
+  - **Redo**: Runs `rails db:migrate:redo VERSION=<version>`
+- Click any option to execute the command in a terminal.
 
-For example:
+### Command Palette
 
-This extension contributes the following settings:
+- Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on macOS).
+- Type and select "Rails Migration Boy".
+- Choose from:
+  - **Migrate All**: Runs `rails db:migrate` (available always).
+  - **Migrate Up**, **Migrate Down**, **Migrate Redo**: Available when a migration file is open.
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+### Requirements
 
-## Known Issues
+- A Rails project with Ruby installed.
+- Migration files following the standard naming convention (`<timestamp>_<name>.rb`).
+- VS Code with CodeLens enabled (default setting: `"editor.codeLens": true`).
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+## Example
 
-## Release Notes
+For a file named `20230304123456_create_users.rb`:
 
-Users appreciate release notes as you update your extension.
+- Clicking "Up" runs: `rails db:migrate:up VERSION=20230304123456`
+- From the Command Palette, selecting "Migrate All" runs: `rails db:migrate`
 
-### 1.0.0
+## Development
 
-Initial release of ...
+To contribute or modify the extension:
 
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd rails-migration-boy
+   ```
