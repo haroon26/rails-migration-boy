@@ -31,6 +31,10 @@
       {
         "command": "rails-migration-boy.migrateRedo",
         "title": "Rails Migration Boy: Migrate Redo"
+      },
+      {
+        "command": "rails-migration-boy.openLatestMigration",
+        "title": "Rails Migration Boy: Open Latest Migration"
       }
     ]
   },
