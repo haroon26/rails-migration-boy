@@ -2,7 +2,7 @@ const vscode = require("vscode");
 const path = require("path");
 
 class MigrationCodeLensProvider {
-  provideCodeLenses(document, token) {
+  provideCodeLenses(document) {
     const fileName = path.basename(document.uri.fsPath);
     if (!fileName.match(/^\d{14}_.*\.rb$/)) {
       return [];
@@ -12,17 +12,17 @@ class MigrationCodeLensProvider {
     return [
       new vscode.CodeLens(range, {
         title: "Up",
-        command: "rails-migration-boy.runUp",
+        command: "rails-migration-boy.migrateUp",
         arguments: [document.uri],
       }),
       new vscode.CodeLens(range, {
         title: "Down",
-        command: "rails-migration-boy.runDown",
+        command: "rails-migration-boy.migrateDown",
         arguments: [document.uri],
       }),
       new vscode.CodeLens(range, {
         title: "Redo",
-        command: "rails-migration-boy.runRedo",
+        command: "rails-migration-boy.migrateRedo",
         arguments: [document.uri],
       }),
     ];
@@ -38,70 +38,62 @@ function activate(context) {
     )
   );
 
-  // Command Palette command
+  // Register Command Palette commands
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "rails-migration-boy.showCommands",
+      "rails-migration-boy.migrateAll",
       async () => {
-        const activeEditor = vscode.window.activeTextEditor;
-        let uri;
-        let isMigrationFile = false;
-        if (activeEditor) {
-          uri = activeEditor.document.uri;
-          isMigrationFile = path.basename(uri.fsPath).match(/^\d{14}_.*\.rb$/);
-        }
-
-        const options = [
-          {
-            label: "Migrate All",
-            description: "Run rails db:migrate",
-            value: "all",
-          },
-        ];
-
-        if (isMigrationFile) {
-          options.push(
-            {
-              label: "Migrate Up",
-              description: "Run rails db:migrate:up",
-              value: "up",
-            },
-            {
-              label: "Migrate Down",
-              description: "Run rails db:migrate:down",
-              value: "down",
-            },
-            {
-              label: "Migrate Redo",
-              description: "Run rails db:migrate:redo",
-              value: "redo",
-            }
-          );
-        }
-
-        const selected = await vscode.window.showQuickPick(options, {
-          placeHolder: "Select a migration command",
-          matchOnDescription: true,
-        });
-
-        if (selected) {
-          await runMigrationCommand(uri, selected.value);
-        }
+        await runMigrationCommand(null, "all");
       }
     )
   );
 
-  // CodeLens commands
   context.subscriptions.push(
-    vscode.commands.registerCommand("rails-migration-boy.runUp", (uri) => {
-      runMigrationCommand(uri, "up");
-    }),
-    vscode.commands.registerCommand("rails-migration-boy.runDown", (uri) => {
-      runMigrationCommand(uri, "down");
-    }),
-    vscode.commands.registerCommand("rails-migration-boy.runRedo", (uri) => {
-      runMigrationCommand(uri, "redo");
-    })
+    vscode.commands.registerCommand(
+      "rails-migration-boy.migrateUp",
+      async (uri) => {
+        const activeUri = uri || vscode.window.activeTextEditor?.document.uri;
+        if (!activeUri || !isMigrationFile(activeUri)) {
+          vscode.window.showErrorMessage(
+            "No migration file is currently open."
+          );
+          return;
+        }
+        await runMigrationCommand(activeUri, "up");
+      }
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "rails-migration-boy.migrateDown",
+      async (uri) => {
+        const activeUri = uri || vscode.window.activeTextEditor?.document.uri;
+        if (!activeUri || !isMigrationFile(activeUri)) {
+          vscode.window.showErrorMessage(
+            "No migration file is currently open."
+          );
+          return;
+        }
+        await runMigrationCommand(activeUri, "down");
+      }
+    )
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "rails-migration-boy.migrateRedo",
+      async (uri) => {
+        const activeUri = uri || vscode.window.activeTextEditor?.document.uri;
+        if (!activeUri || !isMigrationFile(activeUri)) {
+          vscode.window.showErrorMessage(
+            "No migration file is currently open."
+          );
+          return;
+        }
+        await runMigrationCommand(activeUri, "redo");
+      }
+    )
   );
 }
 
@@ -132,6 +124,10 @@ async function runMigrationCommand(uri, action) {
   } catch (error) {
     vscode.window.showErrorMessage(`Error running migration: ${error.message}`);
   }
+}
+
+function isMigrationFile(uri) {
+  return path.basename(uri.fsPath).match(/^\d{14}_.*\.rb$/);
 }
 
 function deactivate() {}

@@ -17,20 +17,20 @@
   "contributes": {
     "commands": [
       {
-        "command": "rails-migration-boy.showCommands",
-        "title": "Rails Migration Boy"
+        "command": "rails-migration-boy.migrateAll",
+        "title": "Rails Migration Boy: Migrate All"
       },
       {
-        "command": "rails-migration-boy.runUp",
-        "title": "Run Migration Up"
+        "command": "rails-migration-boy.migrateUp",
+        "title": "Rails Migration Boy: Migrate Up"
       },
       {
-        "command": "rails-migration-boy.runDown",
-        "title": "Run Migration Down"
+        "command": "rails-migration-boy.migrateDown",
+        "title": "Rails Migration Boy: Migrate Down"
       },
       {
-        "command": "rails-migration-boy.runRedo",
-        "title": "Run Migration Redo"
+        "command": "rails-migration-boy.migrateRedo",
+        "title": "Rails Migration Boy: Migrate Redo"
       }
     ]
   },
