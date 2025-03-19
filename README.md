@@ -5,8 +5,9 @@ A Visual Studio Code extension designed to streamline Rails migration management
 ## Features
 
 - **CodeLens Annotations**: When viewing a Rails migration file, see clickable "Up", "Down", and "Redo" options above the first line.
-- **Command Palette Support**: Access all migration commands, including "Migrate All", from the Command Palette.
+- **Command Palette Support**: Access all migration commands directly in the Command Palette.
 - **Version Detection**: Automatically extracts the migration version from the filename for precise command execution.
+- **Open Latest Migration**: Quickly jump to the most recent migration file in your project.
 
 ## Installation
 
@@ -17,17 +18,12 @@ A Visual Studio Code extension designed to streamline Rails migration management
    - Search for "Rails Migration Boy".
    - Click "Install".
 
-2. **Manual Installation** (Optional):
-   - Download the `.vsix` file from the Marketplace or build it locally.
-   - In VS Code, go to Extensions view > "..." menu > "Install from VSIX".
-   - Select the downloaded `.vsix` file.
-
 ## Usage
 
 ### CodeLens Commands
 
 - Open a Rails migration file (e.g., `20230304123456_create_users.rb`) in the `db/migrate` directory.
-- Above the first line, you'll see:
+- Above the first line, you’ll see:
   - **Up**: Runs `rails db:migrate:up VERSION=<version>`
   - **Down**: Runs `rails db:migrate:down VERSION=<version>`
   - **Redo**: Runs `rails db:migrate:redo VERSION=<version>`
@@ -36,10 +32,13 @@ A Visual Studio Code extension designed to streamline Rails migration management
 ### Command Palette
 
 - Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on macOS).
-- Type and select "Rails Migration Boy Commands".
-- Choose from:
-  - **Migrate All**: Runs `rails db:migrate` (available always).
-  - **Migrate Up**, **Migrate Down**, **Migrate Redo**: Available when a migration file is open.
+- Type "Rails Migration Boy" to see the available commands:
+  - **Rails Migration Boy: Migrate All**: Runs `rails db:migrate` (always available).
+  - **Rails Migration Boy: Migrate Up**: Runs `rails db:migrate:up VERSION=<version>` (requires an open migration file).
+  - **Rails Migration Boy: Migrate Down**: Runs `rails db:migrate:down VERSION=<version>` (requires an open migration file).
+  - **Rails Migration Boy: Migrate Redo**: Runs `rails db:migrate:redo VERSION=<version>` (requires an open migration file).
+  - **Rails Migration Boy: Open Latest Migration**: Opens the most recent migration file from `db/migrate` in the editor (available if a workspace with `db/migrate` is open).
+- Select a command to execute it. If "Up", "Down", or "Redo" is chosen without an open migration file, an error message will appear: "No migration file is currently open."
 
 ### Requirements
 
@@ -47,12 +46,15 @@ A Visual Studio Code extension designed to streamline Rails migration management
 - Migration files following the standard naming convention (`<timestamp>_<name>.rb`).
 - VS Code with CodeLens enabled (default setting: `"editor.codeLens": true`).
 
-## Example
+## Examples
 
 For a file named `20230304123456_create_users.rb`:
 
-- Clicking "Up" runs: `rails db:migrate:up VERSION=20230304123456`
-- From the Command Palette, selecting "Migrate All" runs: `rails db:migrate`
+- Clicking "Up" in CodeLens runs: `rails db:migrate:up VERSION=20230304123456`
+- From the Command Palette:
+  - Selecting "Rails Migration Boy: Migrate All" runs: `rails db:migrate`
+  - Selecting "Rails Migration Boy: Migrate Redo" with the file open runs: `rails db:migrate:redo VERSION=20230304123456`
+  - Selecting "Rails Migration Boy: Open Latest Migration" opens the most recent file (e.g., `20230304123456_create_users.rb` if it’s the latest).
 
 ## Development
 
